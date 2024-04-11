@@ -2,6 +2,7 @@ import Image from "next/image";
 import banner from "@/../public/images/banner.png";
 import { Label } from "@/components/ui/label";
 import CardItem from "@/components/CardItem";
+import Link from "next/link";
 // Replace this with your own logo
 
 export default function Home() {
@@ -14,7 +15,9 @@ export default function Home() {
         <Label className="text-3xl">Sản phẩm</Label>
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 10 }).map((_, index) => (
-            <CardItem key={index} />
+            <Link href="/product/123" key={index}>
+              <CardItem key={index} />
+            </Link>
           ))}
         </div>
       </div>
