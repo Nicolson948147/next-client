@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import Link from "next/link";
 
 function Detail() {
   const router = useRouter();
