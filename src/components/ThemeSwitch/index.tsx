@@ -9,6 +9,7 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { User } from "lucide-react";
+import CartPopup from "../CartPopup";
 
 export default function ThemeSwitch() {
   const pathname = usePathname();
@@ -29,14 +30,7 @@ export default function ThemeSwitch() {
 
   return (
     <div className="flex justify-center items-center gap-4">
-      {pathname !== "/login" ? (
-        <Link href="/login">
-          <Button className="rounded-2xl">
-            <User size={14} />
-            Login
-          </Button>
-        </Link>
-      ) : null}
+      {!pathname.includes("/admin") ? <CartPopup /> : null}
       <Label htmlFor="theme-mode">
         {currentTheme === "light" ? <SunIcon /> : <MoonIcon />}
       </Label>
