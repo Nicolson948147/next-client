@@ -6,6 +6,8 @@ import ThemeSwitch from "@/components/ThemeSwitch";
 import Image from "next/image";
 import logo from "./../../public/icons/logo.svg";
 import { Toaster } from "@/components/ui/toaster";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,19 +30,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="w-full h-screen flex flex-col justify-between items-center">
+          <div className="w-full flex flex-col justify-between items-center bg-slate-50">
+            <Navbar />
             <div className="w-[80%] max-w-screen-xl">
-              <div className="flex flex-row justify-between p-4">
+              {/* <div className="flex flex-row justify-between p-4">
                 <Image alt="logo" src={logo} width={40} height={40} />
                 <ThemeSwitch />
-              </div>
+              </div> */}
               {children}
             </div>
-            <footer className="w-full flex flex-row justify-center items-center p-4 bg-slate-950">
-              <p className="text-white">
-                &copy; {new Date().getFullYear()} from lexnguyen{" "}
-              </p>
-            </footer>
+            <Footer />
           </div>
           <Toaster />
         </ThemeProvider>
