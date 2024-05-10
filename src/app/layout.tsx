@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import ThemeSwitch from "@/components/ThemeSwitch";
-import Image from "next/image";
-import logo from "./../../public/icons/logo.svg";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ApolloWrapper } from "@/lib/apollo-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,25 +22,29 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="w-full flex flex-col justify-between items-center bg-slate-50">
-            <Navbar />
-            <div className="w-[80%] max-w-screen-xl">
-              {/* <div className="flex flex-row justify-between p-4">
+        <ApolloWrapper>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="w-full flex flex-col justify-between items-center bg-slate-50">
+              <Navbar />
+              <main className="flex flex-col min-h-[calc(100vh-3.5rem-1px)] w-full">
+                {/* <div className="flex flex-row justify-between p-4">
                 <Image alt="logo" src={logo} width={40} height={40} />
                 <ThemeSwitch />
               </div> */}
-              {children}
+                <div className="flex flex-col flex-1 h-full w-full">
+                  {children}
+                </div>
+                <Footer />
+              </main>
             </div>
-            <Footer />
-          </div>
-          <Toaster />
-        </ThemeProvider>
+            <Toaster />
+          </ThemeProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

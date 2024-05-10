@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
 import food from "@/../public/images/food.png";
+import CaseMoi from "@/../public/case_moi.png";
+import CaseMoiLogo from "@/../public/case_moi_logo.png";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { ArrowRight, Check, Star } from "lucide-react";
 import Phone from "@/components/Phone";
@@ -28,8 +30,12 @@ export default function Home() {
         <MaxWidthWrapper className="pb-24 pt-10 lg:grid lg:grid-cols-3 sm:pb-32 lg:gap-x-0 xl:gap-x-8 lg:pt-24 xl:pt-32 lg:pb-52">
           <div className="col-span-2 px-6 lg:px-0 lg:pt-4">
             <div className="relative mx-auto text-center lg:text-left flex flex-col items-center lg:items-start">
-              <div className="absolute w-28 left-0 -top-20  hidden lg:block">
-                <Image src={food} alt="banner" className="w-full" />
+              <div className="absolute w-32 left-0 -top-20  hidden lg:block">
+                <Image
+                  src={CaseMoi}
+                  alt="banner"
+                  className="w-full rounded-xl"
+                />
               </div>
               <h1 className="relative w-fit tracking-tight text-balance mt-16 font-bold !leading-tight text-gray-900 text-5xl md:text-6xl lg:text-7xl">
                 Your Image on{" "}
@@ -149,7 +155,11 @@ export default function Home() {
               </span>{" "}
               say
             </h2>
-            <Image src={food} alt="test" className="w-24 order-0 lg:order-2" />
+            <Image
+              src={CaseMoiLogo}
+              alt="test"
+              className="w-32 order-0 lg:order-2"
+            />
           </div>
           <div className="mx-auto grid max-w-2xl grid-cols-1 px-4 lg:mx-0 lg:max-w-none lg:grid-cols-2 gap-y-16">
             <div className="flex flex-col flex-auto gap-4 lg:pr-8 xl:pr-20 ">

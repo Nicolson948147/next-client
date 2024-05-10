@@ -3,9 +3,10 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import Link from "next/link";
 import { Button, buttonVariants } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import ThemeSwitch from "../ThemeSwitch";
 
 function Navbar() {
-  const user = 1;
+  const user = 0;
   const isAdmin = true;
   return (
     <nav className="sticky z-[100] inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-xl transition-all ">
