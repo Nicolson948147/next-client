@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
+import DesignPreview from "./DesignPreview";
 
 interface PreviewPageProps {
   searchParams: {
@@ -18,6 +19,7 @@ function PreviewPage({ searchParams }: PreviewPageProps) {
     variables: {
       configurationId: id,
     },
+    fetchPolicy: "network-only",
   });
 
   if (!id || typeof id !== "string") {
@@ -33,18 +35,25 @@ function PreviewPage({ searchParams }: PreviewPageProps) {
   }
 
   const {
-    imgUrl,
-    width,
-    height,
     id: configurationId,
     croppedImgUrl,
+    caseColor,
+    phoneModel,
+    caseFinish,
+    caseMaterial,
   } = data.configuration;
 
   return (
-    <div className="text-gray-900 flex gap-3">
-      <Image alt="url" src={imgUrl} width={500} height={500} />
-      <Image alt="cropped url" src={croppedImgUrl} width={500} height={500} />
-    </div>
+    <DesignPreview
+      configuration={{
+        imgUrl: croppedImgUrl,
+        color: caseColor,
+        model: phoneModel,
+        finish: caseFinish,
+        material: caseMaterial,
+        id: configurationId,
+      }}
+    />
   );
 }
 

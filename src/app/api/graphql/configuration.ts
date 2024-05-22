@@ -16,6 +16,11 @@ export const GET_CONFIGURATION = gql`
       height
       croppedImgUrl
       imgUrl
+      orderStatus
+      phoneModel
+      caseMaterial
+      caseFinish
+      caseColor
     }
   }
 `;

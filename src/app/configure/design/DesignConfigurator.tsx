@@ -267,7 +267,6 @@ function DesignConfigurator({
                 <RadioGroup
                   value={options.color}
                   onChange={(value) => {
-                    console.log("🚀 ~ value:", value);
                     setOptions((prev) => ({
                       ...prev,
                       color: value as (typeof COLORS)[number],

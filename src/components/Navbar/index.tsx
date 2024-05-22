@@ -1,13 +1,22 @@
+"use client";
 import React from "react";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import { ArrowRight } from "lucide-react";
-import ThemeSwitch from "../ThemeSwitch";
+import {
+  RegisterLink,
+  LoginLink,
+  LogoutLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 function Navbar() {
-  const user = 0;
-  const isAdmin = true;
+  const { getUser } = useKindeBrowserClient();
+
+  const user = getUser();
+
+  const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
   return (
     <nav className="sticky z-[100] inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-xl transition-all ">
       <MaxWidthWrapper>
@@ -21,8 +30,13 @@ function Navbar() {
           <div className="h-full flex items-center space-x-4">
             {user ? (
               <>
-                <Link
-                  href="/signout"
+                <h1 className="text-gray-900 text-xl">
+                  Hi,{" "}
+                  <span className="text-primary">
+                    {user?.given_name ?? "--"}
+                  </span>
+                </h1>
+                <LogoutLink
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
@@ -30,7 +44,7 @@ function Navbar() {
                   })}
                 >
                   Sign out
-                </Link>
+                </LogoutLink>
                 {isAdmin ? (
                   <Link
                     href="/dashboard"
@@ -56,8 +70,7 @@ function Navbar() {
               </>
             ) : (
               <>
-                <Link
-                  href="/signup"
+                <RegisterLink
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
@@ -65,9 +78,8 @@ function Navbar() {
                   })}
                 >
                   Sign up
-                </Link>
-                <Link
-                  href="/login"
+                </RegisterLink>
+                <LoginLink
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
@@ -75,7 +87,7 @@ function Navbar() {
                   })}
                 >
                   Login
-                </Link>
+                </LoginLink>
                 <div className="h-8 w-px hidden sm:block bg-zinc-200"></div>
                 <Link
                   href="/configure/upload"

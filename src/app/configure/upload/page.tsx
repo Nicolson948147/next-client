@@ -53,7 +53,6 @@ function ConfigureUploadPage() {
     },
   });
 
-  console.log("🚀 ~ ConfigureUploadPage ~ data:", data);
   return (
     <div
       className={cn(

@@ -25,7 +25,8 @@ function Phone({ className, imgSrc, dark = false, ...props }: PhoneProps) {
       />
       <div className="absolute -z-10 inset-0">
         <Image
-          className="object-cover"
+          fill
+          className="object-cover min-h-full min-w-full"
           src={imgSrc}
           alt="overlay phone"
         ></Image>

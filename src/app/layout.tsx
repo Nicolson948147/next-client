@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Recursive } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
+import { constructMetadata } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const recursive = Recursive({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "MoiShop",
-  description: "MoiShop - The best place to buy your favorite products",
-};
-
+export const metadata = constructMetadata({});
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={recursive.className}>
         <ApolloWrapper>
           <ThemeProvider
             attribute="class"
