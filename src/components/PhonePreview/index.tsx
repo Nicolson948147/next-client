@@ -35,14 +35,14 @@ function PhonePreview({
   }, []);
 
   const caseBgColor = (() => {
-    let color = "bg-zinc-950";
+    let defaultColor = "bg-zinc-950";
     if (color === "blue") {
-      color = "bg-blue-950";
+      defaultColor = "bg-blue-950";
     }
     if (color === "rose") {
-      color = "bg-rose-950";
+      defaultColor = "bg-rose-950";
     }
-    return color;
+    return defaultColor;
   })();
 
   return (

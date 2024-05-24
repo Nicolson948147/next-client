@@ -1,7 +1,7 @@
 "use client";
-import { CONFIGURATION_ID } from "@/lib/contants";
+import { CONFIGURATION_ID, KINDE_USER_ID } from "@/lib/contants";
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { GET_AUTH_STATUS } from "../api/graphql/user";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,10 @@ function Page() {
     if (localConfigurationId) {
       setConfigurationId(localConfigurationId);
     }
-  }, []);
+    if (user) {
+      localStorage.setItem(KINDE_USER_ID, user.id);
+    }
+  }, [user]);
 
   if (data?.getAuthStatus?.success) {
     if (configurationId) {

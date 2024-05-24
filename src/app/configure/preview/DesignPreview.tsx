@@ -1,14 +1,17 @@
 "use client";
+import { CREATE_CHECKOUT_SESSION } from "@/app/api/graphql/order";
 import LoginModal from "@/components/LoginModal";
 import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products";
 import { CONFIGURATION_ID } from "@/lib/contants";
 import { cn, formatPrice } from "@/lib/utils";
 import { COLORS, FINISH, MODELS } from "@/validatiors/option-validator";
+import { useMutation } from "@apollo/client";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Arrow } from "@radix-ui/react-hover-card";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import Confetti from "react-dom-confetti";
@@ -41,9 +44,14 @@ function DesignPreview({ configuration }: DesignPreviewProps) {
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isShowModalLogin, setIsShowModalLogin] = React.useState(false);
 
+  const { toast } = useToast();
   const { getUser } = useKindeBrowserClient();
 
   const user = getUser();
+
+  const [createCheckoutSession, { loading }] = useMutation(
+    CREATE_CHECKOUT_SESSION
+  );
 
   const router = useRouter();
   useEffect(() => setShowConfetti(true), []);
@@ -65,14 +73,39 @@ function DesignPreview({ configuration }: DesignPreviewProps) {
     return price;
   })();
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (user) {
-      console.log("🚀 ~ handleCheckout ~ user:", user);
+      await createCheckoutSession({
+        variables: {
+          input: {
+            configurationId: configuration.id,
+            amount: totalPrice,
+            kindeUserId: user.id,
+          },
+        },
+        onCompleted: (data) => {
+          if (data.createCheckoutSession.url) {
+            router.push(data.createCheckoutSession.url);
+            return;
+          }
+          toast({
+            title: "Something went wrong!",
+            description: "Failed to create checkout session, please try again.",
+            variant: "destructive",
+          });
+        },
+        onError: (error) => {
+          toast({
+            title: "Something went wrong!",
+            description: "Failed to create checkout session, please try again.",
+            variant: "destructive",
+          });
+        },
+      });
       return;
-    } else {
-      setIsShowModalLogin(true);
-      localStorage.setItem(CONFIGURATION_ID, configuration.id);
     }
+    setIsShowModalLogin(true);
+    localStorage.setItem(CONFIGURATION_ID, configuration.id);
   };
 
   return (
@@ -155,8 +188,17 @@ function DesignPreview({ configuration }: DesignPreviewProps) {
               </div>
             </div>
             <div className="mt-8 flex justify-end pb-12">
-              <Button className="px-4 sm:px-6 lg:px-8" onClick={handleCheckout}>
-                Checkout <ArrowRight className="w-4 h-4 ml-2 inline" />
+              <Button
+                className="px-4 sm:px-6 lg:px-8"
+                onClick={handleCheckout}
+                disabled={loading}
+              >
+                Checkout{" "}
+                {loading ? (
+                  <Loader2 className="w-4 h-4 ml-2 inline animate-spin" />
+                ) : (
+                  <ArrowRight className="w-4 h-4 ml-2 inline" />
+                )}
               </Button>
             </div>
           </div>

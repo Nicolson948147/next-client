@@ -1,14 +1,34 @@
 "use client";
 import PhonePreview from "@/components/PhonePreview";
 import { formatPrice } from "@/lib/utils";
+import { useQuery } from "@apollo/client";
 import { Loader2 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
+import { GET_ORDER_PAYMENT_STATUS } from "../api/graphql/order";
+import { SHIPPING_COST } from "@/config/products";
 
 function ThankYou() {
   const searchParams = useSearchParams();
 
-  if (0 == "2") {
+  const orderId = searchParams.get("orderId") || "";
+
+  const { data, loading, stopPolling } = useQuery(GET_ORDER_PAYMENT_STATUS, {
+    variables: {
+      orderId,
+    },
+    pollInterval: 1000,
+  });
+
+  const { shippingAddress, billingAddress } = data?.paymentStatus?.order ?? {};
+
+  useEffect(() => {
+    if (data?.paymentStatus?.status) {
+      stopPolling();
+    }
+  }, [data?.paymentStatus?.status, stopPolling]);
+
+  if (loading || data?.paymentStatus?.order == undefined) {
     return (
       <div className="w-full mt-24 flex justify-center">
         <div className="flex flex-col items-center gap-2">
@@ -20,7 +40,7 @@ function ThankYou() {
     );
   }
 
-  if (0 === "1") {
+  if (data?.paymentStatus?.status === false) {
     return (
       <div className="w-full mt-24 flex justify-center">
         <div className="flex flex-col items-center gap-2">
@@ -46,7 +66,9 @@ function ThankYou() {
           </p>
           <div className="mt-12 text-sm font-medium">
             <p className="text-zinc-900">Order number:</p>
-            <p className="mt-2 text-zinc-500">1244324242342423</p>
+            <p className="mt-2 text-zinc-500">
+              {data?.paymentStatus?.order?.id}
+            </p>
           </div>
         </div>
         <div className="mt-10 border-t border-zinc-200">
@@ -64,7 +86,12 @@ function ThankYou() {
         </div>
 
         <div className="flex space-x-6 overflow-hidden mt-4 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
-          <PhonePreview />
+          <PhonePreview
+            croppedImage={
+              data?.paymentStatus?.order?.configuration?.croppedImgUrl
+            }
+            color={data?.paymentStatus?.order?.configuration?.caseColor}
+          />
         </div>
 
         <div>
@@ -73,9 +100,16 @@ function ThankYou() {
               <p className="font-medium text-zinc-900">Shipping address</p>
               <div className="mt-2 text-zinc-700">
                 <address className="not-italic">
-                  <span className="block">address 1</span>
-                  <span className="block">address 2</span>
-                  <span className="block">address 3</span>
+                  <span className="block">{shippingAddress?.name ?? "--"}</span>
+                  <span className="block">
+                    {shippingAddress?.street ?? "--"}
+                  </span>
+                  <span className="block">
+                    {shippingAddress?.postalCode ?? "--"} -{" "}
+                    {shippingAddress?.city ?? "--"},{" "}
+                    {shippingAddress?.state ?? "--"},{" "}
+                    {shippingAddress?.country ?? "--"}
+                  </span>
                 </address>
               </div>
             </div>
@@ -83,9 +117,16 @@ function ThankYou() {
               <p className="font-medium text-zinc-900">Billing address</p>
               <div className="mt-2 text-zinc-700">
                 <address className="not-italic">
-                  <span className="block">address 1</span>
-                  <span className="block">address 2</span>
-                  <span className="block">address 3</span>
+                  <span className="block">{billingAddress?.name ?? "--"}</span>
+                  <span className="block">
+                    {billingAddress?.street ?? "--"}
+                  </span>
+                  <span className="block">
+                    {billingAddress?.postalCode ?? "--"} -{" "}
+                    {billingAddress?.city ?? "--"},{" "}
+                    {billingAddress?.state ?? "--"},{" "}
+                    {billingAddress?.country ?? "--"}
+                  </span>
                 </address>
               </div>
             </div>
@@ -93,7 +134,9 @@ function ThankYou() {
           <div className="grid grid-cols-2 gap-x-6 border-t border-zinc-200 py-10 text-sm">
             <div>
               <p className="font-medium text-zinc-900">Payment status</p>
-              <p className="mt-2 font-medium text-zinc-700">Paid</p>
+              <p className="mt-2 font-medium text-zinc-700">
+                {data?.paymentStatus?.order?.isPaid ? "Paid" : "Unpaid"}
+              </p>
             </div>
             <div>
               <p className="font-medium text-zinc-900">Shipping method</p>
@@ -105,15 +148,21 @@ function ThankYou() {
         <div className="space-y-6 border-t border-zinc-200 pt-10 text-sm">
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Subtotal</p>
-            <p className=" text-zinc-700">{formatPrice(1_000_000)}</p>
+            <p className=" text-zinc-700">
+              {formatPrice(data?.paymentStatus?.order?.amount ?? 0)}
+            </p>
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Shipping</p>
-            <p className=" text-zinc-700">{formatPrice(0)}</p>
+            <p className=" text-zinc-700">{formatPrice(SHIPPING_COST)}</p>
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Total</p>
-            <p className=" text-zinc-700">{formatPrice(1_000_000)}</p>
+            <p className=" text-zinc-700">
+              {formatPrice(
+                data?.paymentStatus?.order?.amount + SHIPPING_COST ?? 0
+              )}
+            </p>
           </div>
         </div>
       </div>

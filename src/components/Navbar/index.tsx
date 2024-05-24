@@ -10,6 +10,7 @@ import {
   LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { KINDE_USER_ID } from "@/lib/contants";
 
 function Navbar() {
   const { getUser } = useKindeBrowserClient();
@@ -42,6 +43,9 @@ function Navbar() {
                     variant: "ghost",
                     className: "text-gray-900",
                   })}
+                  onClick={() => {
+                    localStorage.removeItem(KINDE_USER_ID);
+                  }}
                 >
                   Sign out
                 </LogoutLink>
