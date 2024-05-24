@@ -51,7 +51,7 @@ function Navbar() {
                 </LogoutLink>
                 {isAdmin ? (
                   <Link
-                    href="/dashboard"
+                    href="/admin/dashboard"
                     className={buttonVariants({
                       size: "sm",
                       variant: "ghost",

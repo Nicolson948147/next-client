@@ -2,7 +2,8 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { HomeIcon, BackpackIcon, RocketIcon } from "@radix-ui/react-icons";
-import { usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -10,6 +11,14 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  const { getUser } = useKindeBrowserClient();
+
+  const user = getUser();
+
+  if (!user || user?.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+    return notFound();
+  }
 
   return (
     <section className="flex">
