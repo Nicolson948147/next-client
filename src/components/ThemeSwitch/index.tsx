@@ -17,15 +17,16 @@ export default function ThemeSwitch() {
   const [currentTheme, setCurrentTheme] = useState("");
 
   useEffect(() => {
-    setCurrentTheme(
-      theme === "system"
-        ? systemTheme === "light"
-          ? "light"
-          : "dark"
-        : theme === "light"
-        ? "light"
-        : "dark"
-    );
+    // setCurrentTheme(
+    //   theme === "system"
+    //     ? systemTheme === "light"
+    //       ? "light"
+    //       : "dark"
+    //     : theme === "light"
+    //     ? "light"
+    //     : "dark"
+    // );
+    setCurrentTheme("light");
   }, [theme, systemTheme]);
 
   return (
