@@ -23,7 +23,6 @@ export default function RootLayout({
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
-            enableSystem
             disableTransitionOnChange
           >
             <div className="w-full flex flex-col justify-between items-center bg-slate-50">
