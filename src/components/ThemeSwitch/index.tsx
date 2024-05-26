@@ -27,7 +27,8 @@ export default function ThemeSwitch() {
     //     : "dark"
     // );
     setCurrentTheme("light");
-  }, [theme, systemTheme]);
+    setTheme("light");
+  }, [theme, systemTheme, setTheme]);
 
   return (
     <div className="flex justify-center items-center gap-4">
