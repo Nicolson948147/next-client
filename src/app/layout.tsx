@@ -22,7 +22,7 @@ export default function RootLayout({
         <ApolloWrapper>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             disableTransitionOnChange
           >
             <div className="w-full flex flex-col justify-between items-center bg-slate-50">
