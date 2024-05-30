@@ -6,6 +6,7 @@ import { GET_AUTH_STATUS } from "../api/graphql/user";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { GetAuthStatusDocument } from "@/__generated__/graphql";
 
 function Page() {
   const [configurationId, setConfigurationId] = React.useState<string | null>(
@@ -17,7 +18,7 @@ function Page() {
 
   const user = getUser();
 
-  const { data } = useQuery(GET_AUTH_STATUS, {
+  const { data } = useQuery(GetAuthStatusDocument, {
     variables: {
       input: {
         user: {

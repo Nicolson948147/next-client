@@ -34,6 +34,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@apollo/client";
 import { UPDATE_CONFIGURATION } from "@/app/api/graphql/configuration";
 import { useRouter } from "next/navigation";
+import { UpdateConfigurationDocument } from "@/__generated__/graphql";
 
 interface DesignConfiguratorProps {
   configurationId: string;
@@ -62,7 +63,9 @@ function DesignConfigurator({
 }: DesignConfiguratorProps) {
   const { toast } = useToast();
   const router = useRouter();
-  const [updateConfiguration, { loading }] = useMutation(UPDATE_CONFIGURATION);
+  const [updateConfiguration, { loading }] = useMutation(
+    UpdateConfigurationDocument
+  );
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
       const configId = data?.serverData?.configId;

@@ -7,10 +7,9 @@ import Dropzone, { FileRejection } from "react-dropzone";
 import { Progress } from "@/components/ui/progress";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useRouter } from "next/navigation";
-import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useQuery } from "@apollo/client";
-import { GET_CONFIGURATION } from "@/app/api/graphql/configuration";
+import { GetConfigurationDocument } from "@/__generated__/graphql";
 
 function ConfigureUploadPage() {
   const { toast } = useToast();
@@ -47,7 +46,7 @@ function ConfigureUploadPage() {
     setIsDragOver(false);
   };
 
-  const { data } = useQuery(GET_CONFIGURATION, {
+  const { data } = useQuery(GetConfigurationDocument, {
     variables: {
       configurationId: "663d9182d66dd0bd99218516",
     },

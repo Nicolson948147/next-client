@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { notFound } from "next/navigation";
 import React from "react";
 import DesignConfigurator from "./DesignConfigurator";
+import { GetConfigurationDocument } from "@/__generated__/graphql";
 
 interface DesignPageProps {
   searchParams: {
@@ -14,9 +15,9 @@ interface DesignPageProps {
 function DesignPage({ searchParams }: DesignPageProps) {
   const { id } = searchParams;
 
-  const { data, loading } = useQuery(GET_CONFIGURATION, {
+  const { data, loading } = useQuery(GetConfigurationDocument, {
     variables: {
-      configurationId: id,
+      configurationId: id as string,
     },
   });
 
@@ -36,9 +37,9 @@ function DesignPage({ searchParams }: DesignPageProps) {
 
   return (
     <DesignConfigurator
-      configurationId={configurationId}
-      imgDimensions={{ width, height }}
-      imgUrl={imgUrl}
+      configurationId={configurationId!}
+      imgDimensions={{ width: width!, height: height! }}
+      imgUrl={imgUrl!}
     />
   );
 }

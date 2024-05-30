@@ -14,7 +14,7 @@ export const CREATE_CHECKOUT_SESSION = gql`
 `;
 
 export const GET_ORDER_PAYMENT_STATUS = gql`
-  query PaymentStatus($orderId: ID!) {
+  query GetPaymentStatus($orderId: ID!) {
     paymentStatus(orderId: $orderId) {
       order {
         id

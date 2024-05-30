@@ -9,7 +9,7 @@ export const CREATE_CONFIGURATION = gql`
 `;
 
 export const GET_CONFIGURATION = gql`
-  query Configuration($configurationId: ID!) {
+  query GetConfiguration($configurationId: ID!) {
     configuration(id: $configurationId) {
       id
       width

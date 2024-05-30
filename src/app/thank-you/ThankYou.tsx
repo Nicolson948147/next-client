@@ -5,15 +5,15 @@ import { useQuery } from "@apollo/client";
 import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
-import { GET_ORDER_PAYMENT_STATUS } from "../api/graphql/order";
 import { SHIPPING_COST } from "@/config/products";
+import { GetPaymentStatusDocument } from "@/__generated__/graphql";
 
 function ThankYou() {
   const searchParams = useSearchParams();
 
   const orderId = searchParams.get("orderId") || "";
 
-  const { data, loading, stopPolling } = useQuery(GET_ORDER_PAYMENT_STATUS, {
+  const { data, loading, stopPolling } = useQuery(GetPaymentStatusDocument, {
     variables: {
       orderId,
     },
@@ -88,9 +88,9 @@ function ThankYou() {
         <div className="flex space-x-6 overflow-hidden mt-4 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl">
           <PhonePreview
             croppedImage={
-              data?.paymentStatus?.order?.configuration?.croppedImgUrl
+              data?.paymentStatus?.order?.configuration?.croppedImgUrl!
             }
-            color={data?.paymentStatus?.order?.configuration?.caseColor}
+            color={data?.paymentStatus?.order?.configuration?.caseColor!}
           />
         </div>
 
@@ -160,7 +160,7 @@ function ThankYou() {
             <p className="font-medium text-zinc-900">Total</p>
             <p className=" text-zinc-700">
               {formatPrice(
-                data?.paymentStatus?.order?.amount + SHIPPING_COST ?? 0
+                (data?.paymentStatus?.order?.amount ?? 0) + SHIPPING_COST ?? 0
               )}
             </p>
           </div>

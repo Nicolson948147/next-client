@@ -1,4 +1,5 @@
 "use client";
+import { CreateCheckoutSessionDocument } from "@/__generated__/graphql";
 import { CREATE_CHECKOUT_SESSION } from "@/app/api/graphql/order";
 import LoginModal from "@/components/LoginModal";
 import Phone from "@/components/Phone";
@@ -34,10 +35,10 @@ interface DesignPreviewProps {
   configuration: {
     id: string;
     imgUrl: string;
-    color?: string;
-    model?: string;
-    finish?: string;
-    material?: string;
+    color?: string | null;
+    model?: string | null;
+    finish?: string | null;
+    material?: string | null;
   };
 }
 function DesignPreview({ configuration }: DesignPreviewProps) {
@@ -50,7 +51,7 @@ function DesignPreview({ configuration }: DesignPreviewProps) {
   const user = getUser();
 
   const [createCheckoutSession, { loading }] = useMutation(
-    CREATE_CHECKOUT_SESSION
+    CreateCheckoutSessionDocument
   );
 
   const router = useRouter();
@@ -84,7 +85,7 @@ function DesignPreview({ configuration }: DesignPreviewProps) {
           },
         },
         onCompleted: (data) => {
-          if (data.createCheckoutSession.url) {
+          if (data?.createCheckoutSession?.url) {
             router.push(data.createCheckoutSession.url);
             return;
           }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
 import DesignPreview from "./DesignPreview";
+import { GetConfigurationDocument } from "@/__generated__/graphql";
 
 interface PreviewPageProps {
   searchParams: {
@@ -15,9 +16,9 @@ interface PreviewPageProps {
 function PreviewPage({ searchParams }: PreviewPageProps) {
   const { id } = searchParams;
 
-  const { data, loading } = useQuery(GET_CONFIGURATION, {
+  const { data, loading } = useQuery(GetConfigurationDocument, {
     variables: {
-      configurationId: id,
+      configurationId: id as string,
     },
     fetchPolicy: "network-only",
   });
@@ -46,12 +47,12 @@ function PreviewPage({ searchParams }: PreviewPageProps) {
   return (
     <DesignPreview
       configuration={{
-        imgUrl: croppedImgUrl,
-        color: caseColor,
+        imgUrl: croppedImgUrl!,
+        color: caseColor!,
         model: phoneModel,
         finish: caseFinish,
         material: caseMaterial,
-        id: configurationId,
+        id: configurationId!,
       }}
     />
   );
