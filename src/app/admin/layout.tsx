@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HomeIcon, BackpackIcon, RocketIcon } from "@radix-ui/react-icons";
 import { notFound, usePathname } from "next/navigation";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { Loader2 } from "lucide-react";
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -12,9 +13,19 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
 
-  const { getUser } = useKindeBrowserClient();
+  const { getUser, isLoading } = useKindeBrowserClient();
 
   const user = getUser();
+
+  if (isLoading) {
+    return (
+      <div className="w-full mt-24 flex justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
 
   if (!user || user?.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
     return notFound();
@@ -22,7 +33,7 @@ export default function DashboardLayout({
 
   return (
     <section className="flex">
-      <nav className="w-1/5 max-w-xs h-screen p-4 border-r">
+      <nav className="w-1/5 max-w-xs h-auto p-4 border-r">
         <div className="flex flex-col gap-3 justify-start">
           <Link href="/admin/dashboard">
             <Button
@@ -54,7 +65,7 @@ export default function DashboardLayout({
         </div>
       </nav>
 
-      <div className="m-4">{children}</div>
+      <div className="p-4 w-full">{children}</div>
     </section>
   );
 }
