@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { HomeIcon, BackpackIcon, RocketIcon } from "@radix-ui/react-icons";
 import { notFound, usePathname } from "next/navigation";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Loader2 } from "lucide-react";
+import useUser from "@/hooks/useUser";
+import WrappedLayout from "../WrappedLayout";
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -13,11 +14,9 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
 
-  const { getUser, isLoading } = useKindeBrowserClient();
+  const { user, loading } = useUser();
 
-  const user = getUser();
-
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="w-full mt-24 flex justify-center">
         <div className="flex flex-col items-center gap-2">
@@ -32,40 +31,44 @@ export default function DashboardLayout({
   }
 
   return (
-    <section className="flex">
-      <nav className="w-1/5 max-w-xs h-auto p-4 border-r">
-        <div className="flex flex-col gap-3 justify-start">
-          <Link href="/admin/dashboard">
-            <Button
-              className="w-full justify-start gap-3"
-              variant={pathname === "/admin/dashboard" ? "secondary" : "ghost"}
-            >
-              <HomeIcon />
-              Dashboard
-            </Button>
-          </Link>
-          <Link href="/admin/products">
-            <Button
-              className="w-full justify-start gap-3"
-              variant={pathname === "/admin/products" ? "secondary" : "ghost"}
-            >
-              <BackpackIcon />
-              Products
-            </Button>
-          </Link>
-          <Link href="/admin/orders">
-            <Button
-              className="w-full justify-start gap-3"
-              variant={pathname === "/admin/orders" ? "secondary" : "ghost"}
-            >
-              <RocketIcon />
-              Orders
-            </Button>
-          </Link>
-        </div>
-      </nav>
+    <WrappedLayout>
+      <section className="flex">
+        <nav className="w-1/5 max-w-xs h-auto p-4 border-r">
+          <div className="flex flex-col gap-3 justify-start">
+            <Link href="/admin/dashboard">
+              <Button
+                className="w-full justify-start gap-3"
+                variant={
+                  pathname === "/admin/dashboard" ? "secondary" : "ghost"
+                }
+              >
+                <HomeIcon />
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/admin/products">
+              <Button
+                className="w-full justify-start gap-3"
+                variant={pathname === "/admin/products" ? "secondary" : "ghost"}
+              >
+                <BackpackIcon />
+                Products
+              </Button>
+            </Link>
+            <Link href="/admin/orders">
+              <Button
+                className="w-full justify-start gap-3"
+                variant={pathname === "/admin/orders" ? "secondary" : "ghost"}
+              >
+                <RocketIcon />
+                Orders
+              </Button>
+            </Link>
+          </div>
+        </nav>
 
-      <div className="p-4 w-full">{children}</div>
-    </section>
+        <div className="p-4 w-full">{children}</div>
+      </section>
+    </WrappedLayout>
   );
 }

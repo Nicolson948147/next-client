@@ -1,12 +1,8 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
-
-console.log(
-  "🚀 ~ config: CodegenConfig.process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT:" +
-    process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT
-);
+import "dotenv/config";
 
 const config: CodegenConfig = {
-  schema: "https://shop.casemoishop4life.website/graphql",
+  schema: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
   documents: ["src/**/*.ts"],
   generates: {
     "./src/__generated__/": {

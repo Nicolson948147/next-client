@@ -4,18 +4,12 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { ArrowRight } from "lucide-react";
-import {
-  RegisterLink,
-  LoginLink,
-  LogoutLink,
-} from "@kinde-oss/kinde-auth-nextjs/components";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { KINDE_USER_ID } from "@/lib/contants";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import useUser from "@/hooks/useUser";
+import { deleteCookie } from "cookies-next";
 
 function Navbar() {
-  const { getUser } = useKindeBrowserClient();
-
-  const user = getUser();
+  const { loading, user } = useUser();
 
   const isAdmin = user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
   return (
@@ -32,10 +26,7 @@ function Navbar() {
             {user ? (
               <>
                 <h1 className="text-gray-900 text-xl">
-                  Hi,{" "}
-                  <span className="text-primary">
-                    {user?.given_name ?? "--"}
-                  </span>
+                  Hi, <span className="text-primary">{user?.name ?? "--"}</span>
                 </h1>
                 <LogoutLink
                   className={buttonVariants({
@@ -44,7 +35,8 @@ function Navbar() {
                     className: "text-gray-900",
                   })}
                   onClick={() => {
-                    localStorage.removeItem(KINDE_USER_ID);
+                    localStorage.clear();
+                    deleteCookie("user_info");
                   }}
                 >
                   Sign out
@@ -74,24 +66,28 @@ function Navbar() {
               </>
             ) : (
               <>
-                <RegisterLink
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                    className: "text-gray-900",
-                  })}
-                >
-                  Sign up
-                </RegisterLink>
-                <LoginLink
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                    className: "text-gray-900",
-                  })}
-                >
-                  Login
-                </LoginLink>
+                <Link href={"/register"}>
+                  <button
+                    className={buttonVariants({
+                      size: "sm",
+                      variant: "ghost",
+                      className: "text-gray-900",
+                    })}
+                  >
+                    Sign up
+                  </button>
+                </Link>
+                <Link href={"/login"}>
+                  <button
+                    className={buttonVariants({
+                      size: "sm",
+                      variant: "ghost",
+                      className: "text-gray-900",
+                    })}
+                  >
+                    Login
+                  </button>
+                </Link>
                 <div className="h-8 w-px hidden sm:block bg-zinc-200"></div>
                 <Link
                   href="/configure/upload"

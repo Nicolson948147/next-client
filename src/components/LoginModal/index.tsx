@@ -11,6 +11,7 @@ import CaseMoi from "@/../public/case_moi.png";
 import Image from "next/image";
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 import { buttonVariants } from "../ui/button";
+import Link from "next/link";
 
 function LoginModal({
   isShow,
@@ -37,20 +38,26 @@ function LoginModal({
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-6 divide-x divide-gray-200">
-          <LoginLink
-            className={buttonVariants({
-              variant: "outline",
-            })}
-          >
-            Login
-          </LoginLink>
-          <RegisterLink
-            className={buttonVariants({
-              variant: "default",
-            })}
-          >
-            Sign up
-          </RegisterLink>
+          <Link href={"/login"} className="w-full">
+            <button
+              className={buttonVariants({
+                variant: "outline",
+                className: "w-full",
+              })}
+            >
+              Login
+            </button>
+          </Link>
+          <Link href={"/register"} className="w-full">
+            <button
+              className={buttonVariants({
+                variant: "default",
+                className: "w-full",
+              })}
+            >
+              Sign up
+            </button>
+          </Link>
         </div>
       </DialogContent>
     </Dialog>

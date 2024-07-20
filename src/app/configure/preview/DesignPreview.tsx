@@ -6,11 +6,11 @@ import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products";
+import useUser from "@/hooks/useUser";
 import { CONFIGURATION_ID } from "@/lib/contants";
 import { cn, formatPrice } from "@/lib/utils";
 import { COLORS, FINISH, MODELS } from "@/validatiors/option-validator";
 import { useMutation } from "@apollo/client";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Arrow } from "@radix-ui/react-hover-card";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -44,11 +44,9 @@ interface DesignPreviewProps {
 function DesignPreview({ configuration }: DesignPreviewProps) {
   const [showConfetti, setShowConfetti] = React.useState(false);
   const [isShowModalLogin, setIsShowModalLogin] = React.useState(false);
+  const { user } = useUser();
 
   const { toast } = useToast();
-  const { getUser } = useKindeBrowserClient();
-
-  const user = getUser();
 
   const [createCheckoutSession, { loading }] = useMutation(
     CreateCheckoutSessionDocument
@@ -81,7 +79,6 @@ function DesignPreview({ configuration }: DesignPreviewProps) {
           input: {
             configurationId: configuration.id,
             amount: totalPrice,
-            kindeUserId: user.id,
           },
         },
         onCompleted: (data) => {

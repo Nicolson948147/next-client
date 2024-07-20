@@ -1,11 +1,14 @@
 import React, { Suspense } from "react";
 import ThankYou from "./ThankYou";
+import WrappedLayout from "../WrappedLayout";
 
 function Page() {
   return (
-    <Suspense>
-      <ThankYou />
-    </Suspense>
+    <WrappedLayout>
+      <Suspense>
+        <ThankYou />
+      </Suspense>
+    </WrappedLayout>
   );
 }
 
