@@ -18,9 +18,11 @@ const documents = {
     "\n  mutation UpdateConfiguration($input: UpdateConfigurationInput) {\n    updateConfiguration(input: $input) {\n      id\n      croppedImgUrl\n      imgUrl\n      height\n      width\n    }\n  }\n": types.UpdateConfigurationDocument,
     "\n  mutation CreateCheckoutSession($input: CreateOrderInput) {\n    createCheckoutSession(input: $input) {\n      order {\n        id\n        amount\n        orderStatus\n      }\n      url\n    }\n  }\n": types.CreateCheckoutSessionDocument,
     "\n  query GetPaymentStatus($orderId: ID!) {\n    paymentStatus(orderId: $orderId) {\n      order {\n        id\n        isPaid\n        amount\n        orderStatus\n        configuration {\n          croppedImgUrl\n          id\n          caseColor\n        }\n        shippingAddress {\n          id\n          name\n          phoneNumber\n          postalCode\n          state\n          street\n          updatedAt\n          createdAt\n          country\n          city\n        }\n        billingAddress {\n          id\n          name\n          street\n          city\n          postalCode\n          country\n          state\n          phoneNumber\n          createdAt\n          updatedAt\n        }\n      }\n      status\n    }\n  }\n": types.GetPaymentStatusDocument,
+    "\n  query GetOrders {\n    orders {\n      id\n      amount\n      isPaid\n      orderStatus\n      user {\n        name\n        id\n      }\n      createdAt\n      updatedAt\n      billingAddress {\n        id\n        name\n        createdAt\n        country\n        city\n        state\n        street\n        phoneNumber\n      }\n      configuration {\n        id\n        width\n        height\n        croppedImgUrl\n        imgUrl\n        phoneModel\n        caseMaterial\n        caseFinish\n        caseColor\n      }\n      shippingAddress {\n        id\n        street\n        state\n        postalCode\n        phoneNumber\n        name\n        country\n        city\n      }\n    }\n  }\n": types.GetOrdersDocument,
     "\n  query GetAuthStatus($input: AuthStatusInput) {\n    getAuthStatus(input: $input) {\n      success\n      token\n      user {\n        id\n        name\n        email\n      }\n    }\n  }\n": types.GetAuthStatusDocument,
     "\n  mutation Login($input: SignInInput!) {\n    signIn(input: $input) {\n      user {\n        email\n        password\n      }\n      access_token\n      isNotHavePassword\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Register($input: SignUpInput!) {\n    signUp(input: $input) {\n      success\n      message\n    }\n  }\n": types.RegisterDocument,
+    "\n  query GetUsers {\n    users {\n      id\n      name\n      email\n      avatar\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetUsersDocument,
 };
 
 /**
@@ -60,6 +62,10 @@ export function gql(source: "\n  query GetPaymentStatus($orderId: ID!) {\n    pa
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  query GetOrders {\n    orders {\n      id\n      amount\n      isPaid\n      orderStatus\n      user {\n        name\n        id\n      }\n      createdAt\n      updatedAt\n      billingAddress {\n        id\n        name\n        createdAt\n        country\n        city\n        state\n        street\n        phoneNumber\n      }\n      configuration {\n        id\n        width\n        height\n        croppedImgUrl\n        imgUrl\n        phoneModel\n        caseMaterial\n        caseFinish\n        caseColor\n      }\n      shippingAddress {\n        id\n        street\n        state\n        postalCode\n        phoneNumber\n        name\n        country\n        city\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetOrders {\n    orders {\n      id\n      amount\n      isPaid\n      orderStatus\n      user {\n        name\n        id\n      }\n      createdAt\n      updatedAt\n      billingAddress {\n        id\n        name\n        createdAt\n        country\n        city\n        state\n        street\n        phoneNumber\n      }\n      configuration {\n        id\n        width\n        height\n        croppedImgUrl\n        imgUrl\n        phoneModel\n        caseMaterial\n        caseFinish\n        caseColor\n      }\n      shippingAddress {\n        id\n        street\n        state\n        postalCode\n        phoneNumber\n        name\n        country\n        city\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  query GetAuthStatus($input: AuthStatusInput) {\n    getAuthStatus(input: $input) {\n      success\n      token\n      user {\n        id\n        name\n        email\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAuthStatus($input: AuthStatusInput) {\n    getAuthStatus(input: $input) {\n      success\n      token\n      user {\n        id\n        name\n        email\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -69,6 +75,10 @@ export function gql(source: "\n  mutation Login($input: SignInInput!) {\n    sig
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation Register($input: SignUpInput!) {\n    signUp(input: $input) {\n      success\n      message\n    }\n  }\n"): (typeof documents)["\n  mutation Register($input: SignUpInput!) {\n    signUp(input: $input) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetUsers {\n    users {\n      id\n      name\n      email\n      avatar\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetUsers {\n    users {\n      id\n      name\n      email\n      avatar\n      createdAt\n      updatedAt\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

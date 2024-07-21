@@ -55,3 +55,51 @@ export const GET_ORDER_PAYMENT_STATUS = gql`
     }
   }
 `;
+
+export const GET_ORDERS = gql`
+  query GetOrders {
+    orders {
+      id
+      amount
+      isPaid
+      orderStatus
+      user {
+        name
+        id
+      }
+      createdAt
+      updatedAt
+      billingAddress {
+        id
+        name
+        createdAt
+        country
+        city
+        state
+        street
+        phoneNumber
+      }
+      configuration {
+        id
+        width
+        height
+        croppedImgUrl
+        imgUrl
+        phoneModel
+        caseMaterial
+        caseFinish
+        caseColor
+      }
+      shippingAddress {
+        id
+        street
+        state
+        postalCode
+        phoneNumber
+        name
+        country
+        city
+      }
+    }
+  }
+`;

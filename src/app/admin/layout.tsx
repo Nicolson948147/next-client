@@ -1,9 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { HomeIcon, BackpackIcon, RocketIcon } from "@radix-ui/react-icons";
+import {
+  HomeIcon,
+  BackpackIcon,
+  RocketIcon,
+  PersonIcon,
+} from "@radix-ui/react-icons";
 import { notFound, usePathname } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, User2Icon, UserIcon } from "lucide-react";
 import useUser from "@/hooks/useUser";
 import WrappedLayout from "../WrappedLayout";
 
@@ -46,7 +51,16 @@ export default function DashboardLayout({
                 Dashboard
               </Button>
             </Link>
-            <Link href="/admin/products">
+            <Link href="/admin/users">
+              <Button
+                className="w-full justify-start gap-3"
+                variant={pathname === "/admin/users" ? "secondary" : "ghost"}
+              >
+                <PersonIcon />
+                Users
+              </Button>
+            </Link>
+            {/* <Link href="/admin/products">
               <Button
                 className="w-full justify-start gap-3"
                 variant={pathname === "/admin/products" ? "secondary" : "ghost"}
@@ -54,7 +68,7 @@ export default function DashboardLayout({
                 <BackpackIcon />
                 Products
               </Button>
-            </Link>
+            </Link> */}
             <Link href="/admin/orders">
               <Button
                 className="w-full justify-start gap-3"

@@ -35,3 +35,16 @@ export const USER_REGISTER = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+      avatar
+      createdAt
+      updatedAt
+    }
+  }
+`;
